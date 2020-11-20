@@ -22,6 +22,7 @@ screen.title("Attendace")
 subject = StringVar(screen)
 # roll = StringVar(screen)
 roll = [0] * len(SUBJECTS)
+
 rows = [0] * TOTAL_STUDENT
 
 
@@ -143,16 +144,19 @@ if __name__ == "__main__":
         lt = np.loadtxt(file,delimiter=",")
         
         #lt = [np.round(x) for x in lt]
-        
+        # print(lt)
        
         a= lt[:, 0]
         b= lt[:, 1]
-        
+        print(a)
+        print(b)
        
             
             
         fig = plt.figure(figsize =(15,2))
-        
+        plt.xticks(x_pos)
+        plt.yticks([])
+
         plt.bar(x_pos,a,width=0.5,label="Ada")
         plt.bar(x_pos+0.2,b,width=0.5,label="Math")
        # plt.tight_layout()

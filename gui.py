@@ -23,6 +23,15 @@ roll = [0] * len(SUBJECTS)
 rows = [0] * TOTAL_STUDENT
 
 
+def get_file_name():
+    x = datetime.datetime.now()
+    day = str(x.strftime("%x"))
+
+    day = day.split("/")
+    day = "A" + day[1] + "_" + day[0] + "_" + day[2]+".csv"
+    return day
+
+
 def create_file():
 
     fields = SUBJECTS
@@ -31,7 +40,7 @@ def create_file():
     rows = [roll] * TOTAL_STUDENT
 
     # name of csv file
-    filename = "testing.csv"
+    filename = get_file_name()
     if path.exists(filename):
         return
 
@@ -50,14 +59,6 @@ def create_file():
 create_file()
 
 
-def get_file_name():
-    x = datetime.datetime.now()
-    day = str(x.strftime("%x"))
-
-    day = day.split("/")
-    day = "A" + day[1] + "_" + day[0] + "_" + day[2]
-    return day
-
 
 # print(get_file_name())
 
@@ -73,7 +74,7 @@ background_label.place(x=50, y=450)
 
 def save():
     s = get_subject()
-    r = csv.reader(open("testing.csv"))  # Here your csv file
+    r = csv.reader(open(get_file_name()))  # Here your csv file
 
     lines = list(r)
     # lines[] = roll

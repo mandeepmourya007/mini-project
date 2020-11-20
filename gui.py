@@ -1,4 +1,8 @@
+import pandas as pd
+import numpy as np
 from tkinter import *
+import csv
+import matplotlib.pyplot as plt
 import csv
 import time
 import datetime
@@ -39,7 +43,7 @@ def create_file():
         csvwriter = csv.writer(csvfile)
 
         # writing the fields
-        csvwriter.writerow(fields)
+      #  csvwriter.writerow(fields)
 
         # writing the data rows
         csvwriter.writerows(rows)
@@ -71,8 +75,8 @@ def save():
     lines = list(r)
     # lines[] = roll
     for i in range(TOTAL_STUDENT):
-        # print(lines[i][SUBJECTS.index(s)], rows[i])
-        lines[i+1][SUBJECTS.index(s)] = rows[i]
+        print(rows[i])
+        lines[i][SUBJECTS.index(s)] = rows[i]
     # print(lines, SUBJECTS.index(s))
     print(lines)
     writer = csv.writer(open("testing.csv", "w"))
@@ -128,5 +132,66 @@ if __name__ == "__main__":
     submit = Button(screen, text="Submit", bg="red", fg="black", command=save)
     submit.grid(row=6, column=1)
 
-    # Start the GUI
+   
+    i=0
+    y=[]
+   # x=['MIT2020101','MIT2020102','MIT2020103','MIT2020104','MIT2020105','MIT2020106','MIT2020107','MIT2020108','MIT2020109','MIT2020101','MIT2020111','MIT2020112','MIT202013']
+    
+    x_pos=np.array([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+    def graph():
+        file = open("testing.csv")
+        lt = np.loadtxt(file,delimiter=",")
+        
+        #lt = [np.round(x) for x in lt]
+        
+       
+        a= lt[:, 0]
+        b= lt[:, 1]
+        
+       
+            
+            
+        fig = plt.figure(figsize =(15,2))
+        
+        plt.bar(x_pos,a,width=0.5,label="Ada")
+        plt.bar(x_pos+0.2,b,width=0.5,label="Math")
+       # plt.tight_layout()
+        plt.xlabel("RollNo")
+        plt.ylabel("Absent-0,Present-1")
+        plt.show()
+    mybutton=Button(text='Graph',command=graph)
+    mybutton.grid(row=2,column=3)
     screen.mainloop()
+    #root.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

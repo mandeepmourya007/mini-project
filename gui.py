@@ -9,14 +9,11 @@ import datetime
 import os.path
 from os import path
 
+START_ROW = 25
 TOTAL_STUDENT = 15
 # list of  subjects
 SUBJECTS = ["ADA", "PPR", "MATHS", "RM"]
-# ADA = [0] * TOTAL_STUDENT
-# MATHS = [0] * TOTAL_STUDENT
-# PPR = [0] * TOTAL_STUDENT
-# RM = [0] * TOTAL_STUDENT
-
+SCREEN_SIZE = "550x550"
 screen = Tk()
 screen.title("Attendace")
 subject = StringVar(screen)
@@ -44,7 +41,7 @@ def create_file():
         csvwriter = csv.writer(csvfile)
 
         # writing the fields
-      #  csvwriter.writerow(fields)
+        #  csvwriter.writerow(fields)
 
         # writing the data rows
         csvwriter.writerows(rows)
@@ -67,6 +64,11 @@ def get_file_name():
 
 def get_subject():
     return subject.get()
+
+
+filename = PhotoImage(file="i.png")
+background_label = Label(screen, image=filename)
+background_label.place(x=50, y=450)
 
 
 def save():
@@ -102,7 +104,8 @@ def start():
             offvalue=0,
             command=lambda i=i: onClick(i),
         )
-        t.grid(row=10 + i, column=1, ipadx=10)
+        # hegiht =
+        t.grid(row=25 + i, column=1, ipadx=10)
 
 
 if __name__ == "__main__":
@@ -111,7 +114,7 @@ if __name__ == "__main__":
     screen.configure(background="light green")
 
     # Set the configuration of GUI window (WidthxHeight)
-    screen.geometry("550x550")
+    screen.geometry(SCREEN_SIZE)
 
     # Create welcome to Real Time Currency Convertor label
     headlabel = Label(
@@ -120,8 +123,7 @@ if __name__ == "__main__":
 
     label2 = Label(screen, text="Select subject", fg="black", bg="dark green")
 
-    headlabel.grid(row=0, column=1)
-    # label1.grid(row = 1, column = 0)
+    headlabel.grid(row=1, column=1)
     label2.grid(row=2, column=0)
     start()
 
@@ -130,72 +132,37 @@ if __name__ == "__main__":
 
     options.grid(row=2, column=1, ipadx=10)
 
-    submit = Button(screen, text="Submit", bg="red", fg="black", command=save)
-    submit.grid(row=6, column=1)
+    i = 0
+    y = []
+    # x=['MIT2020101','MIT2020102','MIT2020103','MIT2020104','MIT2020105','MIT2020106','MIT2020107','MIT2020108','MIT2020109','MIT2020101','MIT2020111','MIT2020112','MIT202013']
 
-   
-    i=0
-    y=[]
-   # x=['MIT2020101','MIT2020102','MIT2020103','MIT2020104','MIT2020105','MIT2020106','MIT2020107','MIT2020108','MIT2020109','MIT2020101','MIT2020111','MIT2020112','MIT202013']
-    
-    x_pos=np.array([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+    x_pos = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
+
     def graph():
         file = open("testing.csv")
-        lt = np.loadtxt(file,delimiter=",")
-        
-        #lt = [np.round(x) for x in lt]
+        lt = np.loadtxt(file, delimiter=",")
+
+        # lt = [np.round(x) for x in lt]
         # print(lt)
-       
-        a= lt[:, 0]
-        b= lt[:, 1]
-        print(a)
-        print(b)
-       
-            
-            
-        fig = plt.figure(figsize =(15,2))
+
+        a = lt[:, 0]
+        b = lt[:, 1]
+
+        fig = plt.figure(figsize=(15, 2))
         plt.xticks(x_pos)
         plt.yticks([])
 
-        plt.bar(x_pos,a,width=0.5,label="Ada")
-        plt.bar(x_pos+0.2,b,width=0.5,label="Math")
-       # plt.tight_layout()
+        plt.bar(x_pos, a, width=0.5, label="Ada")
+        plt.bar(x_pos + 0.2, b, width=0.5, label="Math")
+        # plt.tight_layout()
         plt.xlabel("RollNo")
         plt.ylabel("Absent-0,Present-1")
         plt.show()
-    mybutton=Button(text='Graph',command=graph)
-    mybutton.grid(row=2,column=3)
+
+    submit = Button(screen, text="Submit", bg="red", fg="black", command=save)
+    submit.grid(row=530, column=410)
+
+    mybutton = Button(text="Graph", command=graph)
+    mybutton.grid(row=530, column=420)
     screen.mainloop()
-    #root.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # root.mainloop()

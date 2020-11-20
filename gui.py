@@ -17,7 +17,8 @@ screen = Tk()
 screen.title("Attendace")
 subject = StringVar(screen)
 # roll = StringVar(screen)
-roll = [0] * TOTAL_STUDENT
+roll = [0] * len(SUBJECTS)
+rows = [0] * TOTAL_STUDENT
 
 
 def create_file():
@@ -25,7 +26,7 @@ def create_file():
     fields = SUBJECTS
 
     # data rows of csv file
-    rows = [roll] * len(SUBJECTS)
+    rows = [roll] * TOTAL_STUDENT
 
     # name of csv file
     filename = "testing.csv"
@@ -66,16 +67,21 @@ def get_subject():
 def save():
     s = get_subject()
     r = csv.reader(open("testing.csv"))  # Here your csv file
+
     lines = list(r)
-    lines[SUBJECTS.index(s)] = roll
+    # lines[] = roll
+    for i in range(TOTAL_STUDENT):
+        print(lines[i][SUBJECTS.index(s)], rows[i])
+        lines[i+1][SUBJECTS.index(s)] = rows[i]
     # print(lines, SUBJECTS.index(s))
+    print(lines)
     writer = csv.writer(open("testing.csv", "w"))
     writer.writerows(lines)
 
 
 def onClick(i):
     # print("present: MIT" + str(2020000 + i))
-    roll[i] = 1 if roll[i] == 0 else 1
+    rows[i] = 1 if rows[i] == 0 else 1
 
     # print((roll))
     return

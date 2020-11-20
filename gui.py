@@ -71,7 +71,7 @@ def save():
     lines = list(r)
     # lines[] = roll
     for i in range(TOTAL_STUDENT):
-        print(lines[i][SUBJECTS.index(s)], rows[i])
+        # print(lines[i][SUBJECTS.index(s)], rows[i])
         lines[i+1][SUBJECTS.index(s)] = rows[i]
     # print(lines, SUBJECTS.index(s))
     print(lines)

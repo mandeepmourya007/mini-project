@@ -6,6 +6,9 @@ import matplotlib.pyplot as plt
 import csv
 import time
 import datetime
+import tkinter
+from tkinter import messagebox
+
 import os.path
 from os import path
 
@@ -78,10 +81,10 @@ def save():
     lines = list(r)
     # lines[] = roll
     for i in range(TOTAL_STUDENT):
-        print(rows[i])
+       # print(rows[i])
         lines[i][SUBJECTS.index(s)] = rows[i]
     # print(lines, SUBJECTS.index(s))
-    print(lines)
+   # print(lines)
     writer = csv.writer(open("testing.csv", "w"))
     writer.writerows(lines)
 
@@ -95,12 +98,72 @@ def onClick(i):
 
 
 def show():
-    s = get_subject()
-    print("call funtion to show graph of " + s)
+   # s = get_subject()
+    #print("call funtion to show graph of " + s)
+
+    def column(matrix, i):
+        return [row[i] for row in matrix]
+    sum_of_day=[]
+    sub = str(input())
+    print("showing graph of " + sub)
+    for j in range(1,20):
+        s = str(j)
+        s += '.csv'
+        r = np.genfromtxt(s, delimiter=',', names=True)
+        Attendence = [0 for i in range(4)] 
+        for i in range(110):
+            Attendence[0] += r[i][0]
+            Attendence[1] += r[i][1]
+            Attendence[2] += r[i][2]
+            Attendence[3] += r[i][3]
+        sum_of_day.append(Attendence)   
+    t = np.arange(0, 19 , 1)
+    if(sub == 'ADA'):
+      plt.plot(t,column(sum_of_day,0),'ro-',label = 'ADA')
+    if(sub == 'RM'):
+      plt.plot(t,column(sum_of_day,1),'ro-',label = 'RM')
+    if(sub == 'MATH'):
+      plt.plot(t,column(sum_of_day,2),'ro-',label = 'MATH')
+    if(sub == 'PPR'):
+      plt.plot(t,column(sum_of_day,3),'ro-',label = 'PPR')
+    plt.xticks(t)
+    plt.xlabel("Perticular Day")
+    plt.ylabel("Attendence on that day for perticular subject")
+    plt.show()
 
 
 def today_graph_show():
     print("call funtion to show graph of today ")
+    file = open("testing.csv")
+    lt = np.loadtxt(file, delimiter=",")
+
+        # lt = [np.round(x) for x in lt]
+        # print(lt)
+    count1=0
+    global A
+    a = lt[:, 0]
+    A=a
+    b = lt[:, 1]
+    c = lt[:, 2]
+    d = lt[:, 3]
+    for i in range(15):
+        if a[i]==1 or b[i]==1 or c[i]==1 or d[i]==1:
+                count1+=1
+        
+    fig = plt.figure(figsize=(15,4 ))
+    plt.xticks(x_pos,x,rotation='270')
+    plt.yticks([])
+    bar_plot=plt.bar(x_pos, a, width=0.5, label="ADA")
+    bar_plot=plt.bar(x_pos , b, width=0.5, label="PPR")
+    bar_plot=plt.bar(x_pos , c, width=0.5, label="MATH")
+    bar_plot=plt.bar(x_pos , d, width=0.5, label="PM")
+    print("Attendence Recorded Successfully")
+    print("No of Students Attended the class:",count1)
+       
+        # plt.tight_layout()
+    plt.xlabel("RollNo")
+    plt.ylabel("Absent-0   Present-1")
+    plt.show()
 
 
 def get_roll():
@@ -111,6 +174,29 @@ def get_roll():
 def student_graph():
     s = get_roll()
     print("graph of studnet" + s)
+    
+    student = int(input("Enter enroll no student you want attendence Details :- "))
+    presence = [0,0,0,0]
+    print(student)
+    for j in range(1,20):
+        s = str(j)
+        s += '.csv'
+        r = np.genfromtxt(s, delimiter=',', names=True)
+        presence[0] += r[student][0]
+        presence[1] += r[student][1]
+        presence[2] += r[student][2]
+        presence[3] += r[student][3]
+    absence = [20 - presence[0] ,20 - presence[1],20 - presence[2],20 - presence[3]]
+    labels = 'ADA-presence', 'ADA-absence', 'RM-presence', 'RM-absence','PPR-presence','PPR-absence', 'MATH-presence','MATH-absence'
+    sizes = [100*(presence[0]/20),100*(absence[0]/20),100*(presence[1]/20),100*(absence[1]/20),
+             100*(presence[2]/20),100*(absence[2]/20),100*(presence[3]/20),100*(absence[3]/20)]
+    explode = (0, 0.1,0, 0.1,0, 0.1,0, 0.1)  # only "explode" the 2nd slice (i.e. 'Hogs')
+
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%', startangle=180)
+    ax1.axis('equal')
+
+    plt.show()
 
 
 def start():
@@ -159,31 +245,12 @@ if __name__ == "__main__":
 
     i = 0
     y = []
-    # x=['MIT2020101','MIT2020102','MIT2020103','MIT2020104','MIT2020105','MIT2020106','MIT2020107','MIT2020108','MIT2020109','MIT2020101','MIT2020111','MIT2020112','MIT202013']
+    x=['MIT2020101','MIT2020102','MIT2020103','MIT2020104','MIT2020105','MIT2020106','MIT2020107','MIT2020108','MIT2020109','MIT2020101','MIT2020111','MIT2020112','MIT202013','MIT2020114','MIT2020115']
 
     x_pos = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
-
-    def graph():
-        file = open("testing.csv")
-        lt = np.loadtxt(file, delimiter=",")
-
-        # lt = [np.round(x) for x in lt]
-        # print(lt)
-
-        a = lt[:, 0]
-        b = lt[:, 1]
-
-        fig = plt.figure(figsize=(15, 2))
-        plt.xticks(x_pos)
-        plt.yticks([])
-
-        plt.bar(x_pos, a, width=0.5, label="Ada")
-        plt.bar(x_pos + 0.2, b, width=0.5, label="Math")
-        # plt.tight_layout()
-        plt.xlabel("RollNo")
-        plt.ylabel("Absent-0,Present-1")
-        plt.show()
-
+    A=1
+  #  def today_graph_show():
+       
     submit = Button(screen, text="Submit", bg="red", fg="black", command=save)
     submit.grid(row=3, column=1)
     l1 = Label(screen, text="Enter roll")
@@ -195,7 +262,5 @@ if __name__ == "__main__":
     submit = Button(screen, text="student", bg="red", fg="black", command=student_graph)
     submit.grid(row=3, column=4)
 
-    # mybutton = Button(text="Graph", command=graph)
-    # mybutton.grid(row=530, column=320)
+    
     screen.mainloop()
-    # root.mainloop()

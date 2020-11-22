@@ -82,6 +82,7 @@ background_label.place(x=50, y=450)
 
 
 def save():
+    create_file()
     s = get_subject()
     r = csv.reader(open(get_file_name()))  # Here your csv file
 
@@ -135,7 +136,7 @@ def show():
             Attendence[2] += r[i][2]
             Attendence[3] += r[i][3]
         sum_of_day.append(Attendence)
-    t = np.arange(0, 19, 1)
+    t = np.arange(0, len(get_csv()), 1)
     if sub == "ADA":
         plt.plot(t, column(sum_of_day, 0), "ro-", label="ADA")
     if sub == "RM":
@@ -152,7 +153,7 @@ def show():
 
 def today_graph_show():
     print("call funtion to show graph of today ")
-    file = open("testing.csv")
+    file = open(get_file_name())
     lt = np.loadtxt(file, delimiter=",")
 
     # lt = [np.round(x) for x in lt]
@@ -191,14 +192,15 @@ def get_roll():
 
 def student_graph():
     s = get_roll()
-    print("graph of studnet" + s)
+    print(int( s))
 
-    student = int(input("Enter enroll no student you want attendence Details :- "))
+    student = int(s)
     presence = [0, 0, 0, 0]
     print(student)
-    for j in range(1, 20):
-        s = str(j)
-        s += ".csv"
+    csvs=get_csv()
+    for j in range(len(csvs)):
+        s = csvs[i]
+        # s += ".csv"
         r = np.genfromtxt(s, delimiter=",", names=True)
         presence[0] += r[student][0]
         presence[1] += r[student][1]

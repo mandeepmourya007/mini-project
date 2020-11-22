@@ -13,7 +13,7 @@ START_ROW = 25
 TOTAL_STUDENT = 15
 # list of  subjects
 SUBJECTS = ["ADA", "PPR", "MATHS", "RM"]
-SCREEN_SIZE = "550x550"
+SCREEN_SIZE = "710x600"
 screen = Tk()
 screen.title("Attendace")
 subject = StringVar(screen)
@@ -28,7 +28,7 @@ def get_file_name():
     day = str(x.strftime("%x"))
 
     day = day.split("/")
-    day = "A" + day[1] + "_" + day[0] + "_" + day[2]+".csv"
+    day = "A" + day[1] + "_" + day[0] + "_" + day[2] + ".csv"
     return day
 
 
@@ -57,7 +57,6 @@ def create_file():
 
 
 create_file()
-
 
 
 # print(get_file_name())
@@ -94,6 +93,21 @@ def onClick(i):
     # print((roll))
     return
 
+
+def show():
+    s = get_subject()
+    print("call funtion to show graph of " + s)
+
+
+def today_graph_show():
+    print("call funtion to show graph of today ")
+
+def get_roll():
+    roll = txt_roll.get()[-3:]
+    return roll
+def student_graph():
+    s=get_roll()
+    print("graph of studnet" +s)
 
 def start():
     for i in range(TOTAL_STUDENT):
@@ -132,6 +146,12 @@ if __name__ == "__main__":
     options = OptionMenu(screen, subject, *SUBJECTS)
 
     options.grid(row=2, column=1, ipadx=10)
+    graph = Button(screen, text="show graph", bg="red", fg="black", command=show)
+    graph.grid(row=2, column=2)
+    today_graph = Button(
+        screen, text="show today_graph", bg="red", fg="black", command=today_graph_show
+    )
+    today_graph.grid(row=2, column=3)
 
     i = 0
     y = []
@@ -161,9 +181,17 @@ if __name__ == "__main__":
         plt.show()
 
     submit = Button(screen, text="Submit", bg="red", fg="black", command=save)
-    submit.grid(row=530, column=410)
+    submit.grid(row=3, column=1)
+    l1 = Label(screen, text="Enter roll")
+    l1.grid(row=3, column=2, sticky=W, pady=2)
+    txt_roll = Entry(screen)
 
-    mybutton = Button(text="Graph", command=graph)
-    mybutton.grid(row=530, column=420)
+    # this will arrange entry widgets
+    txt_roll.grid(row=3, column=3, pady=2)
+    submit = Button(screen, text="student", bg="red", fg="black", command=student_graph)
+    submit.grid(row=3, column=4)
+
+    # mybutton = Button(text="Graph", command=graph)
+    # mybutton.grid(row=530, column=320)
     screen.mainloop()
     # root.mainloop()

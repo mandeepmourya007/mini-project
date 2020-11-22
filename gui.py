@@ -152,6 +152,18 @@ def show():
 
 
 def today_graph_show():
+    s=get_subject()
+    global id1
+    print(s)
+    if s=='PPR':
+        id1=1
+    if s=='ADA':
+        id1=2
+    if s=='MATHS':
+        id1=3
+    if s=='RM':
+        id1=4
+    
     print("call funtion to show graph of today ")
     file = open(get_file_name())
     lt = np.loadtxt(file, delimiter=",")
@@ -160,11 +172,11 @@ def today_graph_show():
     # print(lt)
     count1 = 0
     global A
-    a = lt[:, 0]
-    A = a
-    b = lt[:, 1]
-    c = lt[:, 2]
-    d = lt[:, 3]
+    a = lt[:15, 0]
+    print(a)
+    b = lt[:15, 1]
+    c = lt[:15, 2]
+    d = lt[:15, 3]
     for i in range(15):
         if a[i] == 1 or b[i] == 1 or c[i] == 1 or d[i] == 1:
             count1 += 1
@@ -172,10 +184,15 @@ def today_graph_show():
     fig = plt.figure(figsize=(15, 4))
     plt.xticks(x_pos, x, rotation="270")
     plt.yticks([])
-    bar_plot = plt.bar(x_pos, a, width=0.5, label="ADA")
-    bar_plot = plt.bar(x_pos, b, width=0.5, label="PPR")
-    bar_plot = plt.bar(x_pos, c, width=0.5, label="MATH")
-    bar_plot = plt.bar(x_pos, d, width=0.5, label="PM")
+    
+    if id1==1:
+        bar_plot = plt.bar(x_pos, a, width=0.5, label="PPR")
+    if id1==2:
+        bar_plot = plt.bar(x_pos, b, width=0.5, label="ADA")
+    if id1==3:
+        bar_plot = plt.bar(x_pos, c, width=0.5, label="MATHS")
+    if id1==4:
+        bar_plot = plt.bar(x_pos, d, width=0.5, label="PM")
     print("Attendence Recorded Successfully")
     print("No of Students Attended the class:", count1)
 
@@ -183,6 +200,7 @@ def today_graph_show():
     plt.xlabel("RollNo")
     plt.ylabel("Absent-0   Present-1")
     plt.show()
+
 
 
 def get_roll():

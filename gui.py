@@ -9,10 +9,10 @@ import datetime
 import os.path
 from os import path
 
-START_ROW = 25
+# START_ROW = 25
 TOTAL_STUDENT = 15
 # list of  subjects
-SUBJECTS = ["ADA", "PPR", "MATHS", "RM"]
+SUBJECTS = ["PPR", "ADA", "MATHS", "RM"]
 SCREEN_SIZE = "710x600"
 screen = Tk()
 screen.title("Attendace")
@@ -102,12 +102,16 @@ def show():
 def today_graph_show():
     print("call funtion to show graph of today ")
 
+
 def get_roll():
     roll = txt_roll.get()[-3:]
     return roll
+
+
 def student_graph():
-    s=get_roll()
-    print("graph of studnet" +s)
+    s = get_roll()
+    print("graph of studnet" + s)
+
 
 def start():
     for i in range(TOTAL_STUDENT):

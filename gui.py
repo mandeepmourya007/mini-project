@@ -8,14 +8,12 @@ import time
 import datetime
 import tkinter
 from tkinter import messagebox
-
 import os.path
 from os import path
 import glob
 import glob
 
 
-# START_ROW = 25
 TOTAL_STUDENT = 120
 # list of  subjects
 SUBJECTS = ["PPR", "ADA", "MATHS", "RM"]
@@ -23,7 +21,6 @@ SCREEN_SIZE = "710x600"
 screen = Tk()
 screen.title("Attendace")
 subject = StringVar(screen)
-# roll = StringVar(screen)
 roll = [0] * len(SUBJECTS)
 
 rows = [0] * TOTAL_STUDENT
@@ -31,92 +28,56 @@ rows = [0] * TOTAL_STUDENT
 
 def get_file_name():
     x = datetime.datetime.now()
-    print(x)
     day = str(x.strftime("%x"))
-
     day = day.split("/")
     day = "A" + day[1] + "_" + day[0] + "_" + day[2] + ".csv"
     return day
 
 
-get_file_name()
-
-
 def create_file():
-
     fields = SUBJECTS
-
     # data rows of csv file
     rows = [roll] * TOTAL_STUDENT
-
     # name of csv file
     filename = get_file_name()
     if path.exists(filename):
         return
-
     # writing to csv file
     with open(filename, "w") as csvfile:
-        # creating a csv writer object
+        # creating a csv writer
         csvwriter = csv.writer(csvfile)
-
-        # writing the fields
-        #  csvwriter.writerow(fields)
-
         # writing the data rows
         csvwriter.writerows(rows)
-
-
-# create_file()
-
-
-# print(get_file_name())
 
 
 def get_subject():
     return subject.get()
 
 
-filename = PhotoImage(file="i.png")
-background_label = Label(screen, image=filename)
-background_label.place(x=50, y=450)
-
-
-def save():
+def mark_attendance():
     create_file()
     s = get_subject()
-    r = csv.reader(open(get_file_name()))  # Here your csv file
-
+    r = csv.reader(open(get_file_name()))
     lines = list(r)
-    # lines[] = roll
     for i in range(15):
-        # print(rows[i])
         lines[i][SUBJECTS.index(s)] = rows[i]
-    # print(lines, SUBJECTS.index(s))
-    # print(lines)
     writer = csv.writer(open(get_file_name(), "w"))
     writer.writerows(lines)
 
 
 def onClick(i):
-    # print("present: MIT" + str(2020000 + i))
     rows[i] = 1 if rows[i] == 0 else 1
-
-    # print((roll))
     return
 
 
 def get_csv():
     all_csv = glob.glob1(".", "*.csv")
-    # print(glob.glob1(".", "*.csv"))
     return all_csv
 
 
-# print(count_csv())
-# count_csv()
 def show():
 
     s = get_subject()
-    # print("call funtion to show graph of " + s)
 
     def column(matrix, i):
         return [row[i] for row in matrix]
@@ -127,7 +88,6 @@ def show():
     csvs = get_csv()
     for j in range(len(csvs)):
         s = csvs[j]
-        # s += ".csv"
         r = np.genfromtxt(s, delimiter=",", names=True)
         Attendence = [0 for i in range(4)]
         for i in range(110):
@@ -152,24 +112,21 @@ def show():
 
 
 def today_graph_show():
-    s=get_subject()
+    s = get_subject()
     global id1
     print(s)
-    if s=='PPR':
-        id1=1
-    if s=='ADA':
-        id1=2
-    if s=='MATHS':
-        id1=3
-    if s=='RM':
-        id1=4
-    
+    if s == "PPR":
+        id1 = 1
+    if s == "ADA":
+        id1 = 2
+    if s == "MATHS":
+        id1 = 3
+    if s == "RM":
+        id1 = 4
+
     print("call funtion to show graph of today ")
     file = open(get_file_name())
     lt = np.loadtxt(file, delimiter=",")
-
-    # lt = [np.round(x) for x in lt]
-    # print(lt)
     count1 = 0
     global A
     a = lt[:15, 0]
@@ -184,23 +141,20 @@ def today_graph_show():
     fig = plt.figure(figsize=(15, 4))
     plt.xticks(x_pos, x, rotation="270")
     plt.yticks([])
-    
-    if id1==1:
+
+    if id1 == 1:
         bar_plot = plt.bar(x_pos, a, width=0.5, label="PPR")
-    if id1==2:
+    if id1 == 2:
         bar_plot = plt.bar(x_pos, b, width=0.5, label="ADA")
-    if id1==3:
+    if id1 == 3:
         bar_plot = plt.bar(x_pos, c, width=0.5, label="MATHS")
-    if id1==4:
+    if id1 == 4:
         bar_plot = plt.bar(x_pos, d, width=0.5, label="PM")
     print("Attendence Recorded Successfully")
     print("No of Students Attended the class:", count1)
-
-    # plt.tight_layout()
     plt.xlabel("RollNo")
     plt.ylabel("Absent-0   Present-1")
     plt.show()
-
 
 
 def get_roll():
@@ -210,15 +164,12 @@ def get_roll():
 
 def student_graph():
     s = get_roll()
-    print(int( s))
-
     student = int(s)
     presence = [0, 0, 0, 0]
     print(student)
-    csvs=get_csv()
+    csvs = get_csv()
     for j in range(len(csvs)):
         s = csvs[i]
-        # s += ".csv"
         r = np.genfromtxt(s, delimiter=",", names=True)
         presence[0] += r[student][0]
         presence[1] += r[student][1]
@@ -263,9 +214,9 @@ def student_graph():
     plt.show()
 
 
-def start():
+def Attendace_button():
     for i in range(15):
-        t = Checkbutton(
+        check_box = Checkbutton(
             screen,
             text="MIT" + str(2020000 + i),
             variable=lambda i=i: ADA[i],
@@ -273,37 +224,41 @@ def start():
             offvalue=0,
             command=lambda i=i: onClick(i),
         )
-        # hegiht =
-        t.grid(row=25 + i, column=1, ipadx=10)
+        check_box.grid(row=25 + i, column=1, ipadx=10)
 
 
 if __name__ == "__main__":
 
     # Set the background colour of GUI window
-    screen.configure(background="light green")
-
+    screen.configure(background="#214252")
     # Set the configuration of GUI window (WidthxHeight)
     screen.geometry(SCREEN_SIZE)
-
     # Create welcome to Real Time Currency Convertor label
     headlabel = Label(
-        screen, text="welcome to Real Attendace visualizer", fg="black", bg="red"
+        screen, text="welcome to Real Attendace visualizer", fg="black", bg="#cad315"
     )
+    image = PhotoImage(file="i.png")
+    background_label = Label(screen, image=image)
+    background_label.place(x=50, y=450)
 
-    label2 = Label(screen, text="Select subject", fg="black", bg="dark green")
-
+    # setting location  for headline
     headlabel.grid(row=1, column=1)
-    label2.grid(row=2, column=0)
-    start()
-
+    # lable for subject
+    lbl_subject = Label(screen, text="Select subject", fg="black", bg="dark green")
+    # setting location  for subject
+    lbl_subject.grid(row=2, column=0)
     # create a drop down menu using OptionMenu function
     options = OptionMenu(screen, subject, *SUBJECTS)
-
+    # setting location  for dropdown
     options.grid(row=2, column=1, ipadx=10)
-    graph = Button(screen, text="show graph", bg="red", fg="black", command=show)
+    graph = Button(screen, text="show graph", bg="#9ad3bc", fg="black", command=show)
     graph.grid(row=2, column=2)
     today_graph = Button(
-        screen, text="show today_graph", bg="red", fg="black", command=today_graph_show
+        screen,
+        text="show today_graph",
+        bg="#9ad3bc",
+        fg="black",
+        command=today_graph_show,
     )
     today_graph.grid(row=2, column=3)
 
@@ -329,17 +284,19 @@ if __name__ == "__main__":
 
     x_pos = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
     A = 1
-    #  def today_graph_show():
-
-    submit = Button(screen, text="Submit", bg="red", fg="black", command=save)
+    submit = Button(
+        screen, text="Submit", bg="#9ad3bc", fg="black", command=mark_attendance
+    )
+    # generating checkbox for marks attendance
+    Attendace_button()
     submit.grid(row=3, column=1)
-    l1 = Label(screen, text="Enter roll")
-    l1.grid(row=3, column=2, sticky=W, pady=2)
+    lbl_roll = Label(screen, text="Enter roll")
+    lbl_roll.grid(row=3, column=2, sticky=W, pady=2)
     txt_roll = Entry(screen)
-
     # this will arrange entry widgets
     txt_roll.grid(row=3, column=3, pady=2)
-    submit = Button(screen, text="student", bg="red", fg="black", command=student_graph)
+    submit = Button(
+        screen, text="student", bg="#9ad3bc", fg="black", command=student_graph
+    )
     submit.grid(row=3, column=4)
-
     screen.mainloop()

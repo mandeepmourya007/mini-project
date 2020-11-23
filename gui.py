@@ -152,17 +152,8 @@ def show():
 
 
 def today_graph_show():
-    s=get_subject()
-    global id1
-    print(s)
-    if s=='PPR':
-        id1=1
-    if s=='ADA':
-        id1=2
-    if s=='MATHS':
-        id1=3
-    if s=='RM':
-        id1=4
+    
+    
     
     print("call funtion to show graph of today ")
     file = open(get_file_name())
@@ -185,21 +176,22 @@ def today_graph_show():
     plt.xticks(x_pos, x, rotation="270")
     plt.yticks([])
     
-    if id1==1:
-        bar_plot = plt.bar(x_pos, a, width=0.5, label="PPR")
-    if id1==2:
-        bar_plot = plt.bar(x_pos, b, width=0.5, label="ADA")
-    if id1==3:
-        bar_plot = plt.bar(x_pos, c, width=0.5, label="MATHS")
-    if id1==4:
-        bar_plot = plt.bar(x_pos, d, width=0.5, label="PM")
+    
+    bar_plot = plt.bar(x_pos, a , width=0.5, label="PPR")
+   
+    bar_plot = plt.bar(x_pos, b,bottom=a, width=0.5, label="ADA")
+    c_graph=list(np.add(a,b))
+    bar_plot = plt.bar(x_pos, c,bottom=c_graph, width=0.5, label="MATHS")
+    d_graph=list(np.add(c_graph,c))
+    bar_plot = plt.bar(x_pos, d,bottom=d_graph, width=0.5, label="PM")
     print("Attendence Recorded Successfully")
     print("No of Students Attended the class:", count1)
 
     # plt.tight_layout()
     plt.xlabel("RollNo")
     plt.ylabel("Absent-0   Present-1")
-    plt.show()
+    plt.legend()
+
 
 
 

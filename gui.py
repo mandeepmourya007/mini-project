@@ -22,9 +22,7 @@ def get_file_name():
     TO get filename of current day
     """
     x = datetime.datetime.now()
-    print(x)
     day = str(x.strftime("%x"))
-    print(day)
     day = day.split("/")
     day = "A" + day[1] + "_" + day[0] + "_" + day[2] + ".csv"
     return day
@@ -76,8 +74,8 @@ def get_csv():
     """
     To get all CSV files
     """
-    all_csv = glob.glob1(".", "*.csv")
-    return all_csv
+    allCsv = glob.glob1(".", "*.csv")
+    return allCsv
 
 
 def onClick(i):
@@ -97,7 +95,7 @@ def show():
     def column(matrix, i):
         return [row[i] for row in matrix]
 
-    sum_of_day = []
+    sumOfDay = []
     sub = s  # str(input())
     print("showing graph of " + sub)
     csvs = get_csv()
@@ -112,17 +110,17 @@ def show():
             Attendence[2] += r[i][2]
             Attendence[3] += r[i][3]
 
-        sum_of_day.append(Attendence)  # s of d  [ [15,85,96,65],[555],[]]
+        sumOfDay.append(Attendence)  # s of d  [ [15,85,96,65],[555],[]]
 
     t = np.arange(1, len(get_csv()) + 1, 1)
     if sub == "ADA":
-        plt.plot(t, column(sum_of_day, 0), "ro-", label="ADA")
+        plt.plot(t, column(sumOfDay, 0), "ro-", label="ADA")
     if sub == "RM":
-        plt.plot(t, column(sum_of_day, 1), "ro-", label="RM")
+        plt.plot(t, column(sumOfDay, 1), "ro-", label="RM")
     if sub == "MATHS":
-        plt.plot(t, column(sum_of_day, 2), "ro-", label="MATH")
+        plt.plot(t, column(sumOfDay, 2), "ro-", label="MATH")
     if sub == "PPR":
-        plt.plot(t, column(sum_of_day, 3), "ro-", label="PPR")
+        plt.plot(t, column(sumOfDay, 3), "ro-", label="PPR")
     plt.xticks(t)
     plt.xlabel("Day")
     plt.ylabel("Attendence of " + sub)
@@ -142,14 +140,14 @@ def today_graph_show():
     c = lt[:15, 2]
     d = lt[:15, 3]
     fig = plt.figure(figsize=(15, 4))
-    plt.xticks(x_pos, x, rotation="270")
+    plt.xticks(xPos, x, rotation="270")
     plt.yticks([])
-    bar_plot = plt.bar(x_pos, a, width=0.5, label="PPR")
-    bar_plot = plt.bar(x_pos, b, bottom=a, width=0.5, label="ADA")
+    barPlot = plt.bar(xPos, a, width=0.5, label="PPR")
+    barPlot = plt.bar(xPos, b, bottom=a, width=0.5, label="ADA")
     c_graph = list(np.add(a, b))
-    bar_plot = plt.bar(x_pos, c, bottom=c_graph, width=0.5, label="MATHS")
+    barPlot = plt.bar(xPos, c, bottom=c_graph, width=0.5, label="MATHS")
     d_graph = list(np.add(c_graph, c))
-    bar_plot = plt.bar(x_pos, d, bottom=d_graph, width=0.5, label="PM")
+    barPlot = plt.bar(xPos, d, bottom=d_graph, width=0.5, label="PM")
     print("Attendence Recorded Successfully")
     plt.xlabel("RollNo")
     plt.ylabel("Present")
@@ -162,7 +160,7 @@ def get_roll():
     """
     To get roll number of student from GUI
     """
-    roll = txt_roll.get()[-3:]
+    roll = txtRoll.get()[-3:]
     return roll
 
 
@@ -270,32 +268,32 @@ if __name__ == "__main__":
     # Set the configuration of GUI window (WidthxHeight)
     screen.geometry(SCREEN_SIZE)
     # Create welcome to Real Time Currency Convertor label
-    headlabel = Label(
+    headLabel = Label(
         screen, text="welcome to Real Attendace visualizer", fg="black", bg="#cad315"
     )
     image = PhotoImage(file="i.png")
-    background_label = Label(screen, image=image)
-    background_label.place(x=50, y=450)
+    backgroundLabel = Label(screen, image=image)
+    backgroundLabel.place(x=50, y=450)
     # setting location  for headline
-    headlabel.grid(row=1, column=1)
+    headLabel.grid(row=1, column=1)
     # lable for subject
-    lbl_subject = Label(screen, text="Select subject", fg="black", bg="grey")
+    lblSubject = Label(screen, text="Select subject", fg="black", bg="grey")
     # setting location  for subject
-    lbl_subject.grid(row=2, column=0)
+    lblSubject.grid(row=2, column=0)
     # create a drop down menu using OptionMenu function
     options = OptionMenu(screen, subject, *SUBJECTS)
     # setting location  for dropdown
     options.grid(row=2, column=1, ipadx=10)
     graph = Button(screen, text="show graph", bg="#9ad3bc", fg="black", command=show)
     graph.grid(row=2, column=2)
-    today_graph = Button(
+    todayGraph = Button(
         screen,
         text="show today_graph",
         bg="#9ad3bc",
         fg="black",
         command=today_graph_show,
     )
-    today_graph.grid(row=2, column=3)
+    todayGraph.grid(row=2, column=3)
 
     i = 0
     y = []
@@ -317,7 +315,7 @@ if __name__ == "__main__":
         "MIT2020115",
     ]
 
-    x_pos = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
+    xPos = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
     A = 1
     submit = Button(
         screen, text="Submit", bg="#9ad3bc", fg="black", command=mark_attendance
@@ -325,11 +323,11 @@ if __name__ == "__main__":
     # generating checkbox for marks attendance
     Attendace_button()
     submit.grid(row=3, column=1)
-    lbl_roll = Label(screen, text="Enter roll")
-    lbl_roll.grid(row=3, column=2, sticky=W, pady=2)
-    txt_roll = Entry(screen)
+    lblRoll = Label(screen, text="Enter roll")
+    lblRoll.grid(row=3, column=2, sticky=W, pady=2)
+    txtRoll = Entry(screen)
     # this will arrange entry widgets
-    txt_roll.grid(row=3, column=3, pady=2)
+    txtRoll.grid(row=3, column=3, pady=2)
     submit = Button(
         screen, text="student", bg="#9ad3bc", fg="black", command=student_graph
     )

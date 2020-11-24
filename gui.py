@@ -4,9 +4,6 @@ import csv
 import matplotlib.pyplot as plt
 import time
 import datetime
-# import tkinter
-# from tkinter import messagebox
-# import os.path
 from os import path
 import glob
 
@@ -21,6 +18,9 @@ rows = [0] * TOTAL_STUDENT
 
 
 def get_file_name():
+    """
+    TO get filename of current day
+    """
     x = datetime.datetime.now()
     print(x)
     day = str(x.strftime("%x"))
@@ -28,10 +28,12 @@ def get_file_name():
     day = day.split("/")
     day = "A" + day[1] + "_" + day[0] + "_" + day[2] + ".csv"
     return day
-# get_file_name()
+
 
 def create_file():
-    # fields = SUBJECTS
+    """
+    To Create a csv file for today attendance
+    """
     # data rows of csv file
     rows = [roll] * TOTAL_STUDENT
     # name of csv file
@@ -47,10 +49,18 @@ def create_file():
 
 
 def get_subject():
+    """
+    To get subject from GUI
+    """
+
     return subject.get()
 
 
 def mark_attendance():
+    """
+    Mark the attendance of selected subject
+    """
+
     create_file()
     s = get_subject()
     r = csv.reader(open(get_file_name()))
@@ -62,18 +72,26 @@ def mark_attendance():
 
 
 def get_csv():
+
+    """
+    To get all CSV files
+    """
     all_csv = glob.glob1(".", "*.csv")
     return all_csv
 
 
 def onClick(i):
-    
+    """
+    On click mark attendance after collecting data from GUI to a list names row
+    """
     rows[i] = 1 if rows[i] == 0 else 0
     return
 
 
 def show():
-
+    """
+    To show graph of selected subjects
+    """
     s = get_subject()
 
     def column(matrix, i):
@@ -87,16 +105,16 @@ def show():
         s = csvs[j]
         # txt to 2d array
         r = np.genfromtxt(s, delimiter=",", names=True)
-        Attendence = [0 for i in range(4)] # [0,0,0,0]
+        Attendence = [0 for i in range(4)]  # [0,0,0,0]
         for i in range(119):
             Attendence[0] += r[i][0]
             Attendence[1] += r[i][1]
             Attendence[2] += r[i][2]
             Attendence[3] += r[i][3]
-        
-        sum_of_day.append(Attendence)
-    # s of d  [ [15,85,96,65],[555],[]]
-    t = np.arange(0, len(get_csv()), 1)
+
+        sum_of_day.append(Attendence)  # s of d  [ [15,85,96,65],[555],[]]
+
+    t = np.arange(1, len(get_csv()) + 1, 1)
     if sub == "ADA":
         plt.plot(t, column(sum_of_day, 0), "ro-", label="ADA")
     if sub == "RM":
@@ -105,61 +123,58 @@ def show():
         plt.plot(t, column(sum_of_day, 2), "ro-", label="MATH")
     if sub == "PPR":
         plt.plot(t, column(sum_of_day, 3), "ro-", label="PPR")
-    print(column(sum_of_day, 2))
     plt.xticks(t)
-    plt.xlabel("Perticular Day")
-    plt.ylabel("Attendence on that day for perticular subject")
+    plt.xlabel("Day")
+    plt.ylabel("Attendence of " + sub)
     plt.legend()
     plt.show()
 
 
 def today_graph_show():
-    print("call funtion to show graph of today ")
+    """
+    to show graph of today attendance
+    """
+    print("show graph of today ")
     file = open(get_file_name())
     lt = np.loadtxt(file, delimiter=",")
-    count1 = 0
-    # global A
     a = lt[:15, 0]
-    # print(a)
     b = lt[:15, 1]
     c = lt[:15, 2]
     d = lt[:15, 3]
-    # for i in range(15):
-    #     if a[i] == 1 or b[i] == 1 or c[i] == 1 or d[i] == 1:
-    #         count1 += 1
-
     fig = plt.figure(figsize=(15, 4))
     plt.xticks(x_pos, x, rotation="270")
     plt.yticks([])
-    bar_plot = plt.bar(x_pos, a , width=0.5, label="PPR")
-    bar_plot = plt.bar(x_pos, b,bottom=a, width=0.5, label="ADA")
-    c_graph=list(np.add(a,b))
-    bar_plot = plt.bar(x_pos, c,bottom=c_graph, width=0.5, label="MATHS")
-    d_graph=list(np.add(c_graph,c))
-    bar_plot = plt.bar(x_pos, d,bottom=d_graph, width=0.5, label="PM")
+    bar_plot = plt.bar(x_pos, a, width=0.5, label="PPR")
+    bar_plot = plt.bar(x_pos, b, bottom=a, width=0.5, label="ADA")
+    c_graph = list(np.add(a, b))
+    bar_plot = plt.bar(x_pos, c, bottom=c_graph, width=0.5, label="MATHS")
+    d_graph = list(np.add(c_graph, c))
+    bar_plot = plt.bar(x_pos, d, bottom=d_graph, width=0.5, label="PM")
     print("Attendence Recorded Successfully")
-    # print("No of Students Attended the class:", count1)
     plt.xlabel("RollNo")
-    plt.ylabel("Absent-0   Present-1")
+    plt.ylabel("Present")
     plt.legend()
 
     plt.show()
 
 
-
 def get_roll():
+    """
+    To get roll number of student from GUI
+    """
     roll = txt_roll.get()[-3:]
     return roll
 
 
 def student_graph():
+    """
+    To show data of the student
+    """
     s = get_roll()
     student = int(s)
     presence = [0, 0, 0, 0]
-    # print(student)
     csvs = get_csv()
     days = len(csvs)
-    print(days)
     for j in range(days):
         s = csvs[j]
         r = np.genfromtxt(s, delimiter=",", names=True)
@@ -169,16 +184,21 @@ def student_graph():
         presence[2] += r[student][2]
         presence[3] += r[student][3]
     # print(presence[0])
-    absence = [days - presence[0], days - presence[1], days - presence[2], days - presence[3]]
+    absence = [
+        days - presence[0],
+        days - presence[1],
+        days - presence[2],
+        days - presence[3],
+    ]
     labels = (
-        "ADA-presence",
         "ADA-absence",
-        "RM-presence",
+        "ADA-presence",
         "RM-absence",
-        "PPR-presence",
+        "RM-presence",
         "PPR-absence",
-        "MATH-presence",
+        "PPR-presence",
         "MATH-absence",
+        "MATH-presence",
     )
     sizes = [
         100 * (presence[0] / days),
@@ -202,20 +222,31 @@ def student_graph():
     )  # only "explode" the 2nd slice (i.e. 'Hogs')
 
     i = 0
-    colors = ["red","grey", "green","grey", "yellow","grey", "blue","grey"][::-1]
+    colors = ["red", "grey", "green", "grey", "yellow", "grey", "blue", "grey"][::-1]
 
     def absolute_value(val):
         print(val)
-        a  = np.round(val/100.*sum(sizes), 0)
+        a = np.round(val / 100.0 * sum(sizes), 0)
         return a
+
     fig1, ax1 = plt.subplots()
-    ax1.pie(sizes, explode=explode, labels=labels, autopct=absolute_value,colors=colors, startangle=180)
+    ax1.pie(
+        sizes,
+        explode=explode,
+        labels=labels,
+        autopct=absolute_value,
+        colors=colors,
+        startangle=180,
+    )
     ax1.axis("equal")
 
     plt.show()
 
 
 def Attendace_button():
+    """
+    Buttons to marks attendance
+    """
     for i in range(15):
         check_box = Checkbutton(
             screen,
@@ -245,7 +276,6 @@ if __name__ == "__main__":
     image = PhotoImage(file="i.png")
     background_label = Label(screen, image=image)
     background_label.place(x=50, y=450)
-
     # setting location  for headline
     headlabel.grid(row=1, column=1)
     # lable for subject

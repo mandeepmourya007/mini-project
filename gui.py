@@ -2,7 +2,6 @@ import numpy as np
 from tkinter import *
 import csv
 import matplotlib.pyplot as plt
-import time
 import datetime
 from os import path
 import glob

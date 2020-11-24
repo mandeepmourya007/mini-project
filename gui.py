@@ -113,13 +113,13 @@ def show():
 
     t = np.arange(1, len(get_csv()) + 1, 1)
     if sub == "ADA":
-        plt.plot(t, column(sumOfDay, 0), "ro-", label="ADA")
+        plt.plot(t, column(sumOfDay, SUBJECTS.index(sub)), "ro-", label="ADA")
     if sub == "RM":
-        plt.plot(t, column(sumOfDay, 1), "ro-", label="RM")
+        plt.plot(t, column(sumOfDay, SUBJECTS.index(sub)), "ro-", label="RM")
     if sub == "MATHS":
-        plt.plot(t, column(sumOfDay, 2), "ro-", label="MATH")
+        plt.plot(t, column(sumOfDay, SUBJECTS.index(sub)), "ro-", label="MATH")
     if sub == "PPR":
-        plt.plot(t, column(sumOfDay, 3), "ro-", label="PPR")
+        plt.plot(t, column(sumOfDay, SUBJECTS.index(sub)), "ro-", label="PPR")
     plt.xticks(t)
     plt.xlabel("Day")
     plt.ylabel("Attendence of " + sub)
